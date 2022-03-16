@@ -45,11 +45,6 @@ resource "proxmox_vm_qemu" "minecraft_server" {
       host        = var.ip_address[count.index]
     }
 
-  provisioner "file" {
-    source      = "./files/"
-    destination = "/home/debian/"
-  }
-
   provisioner "remote-exec" {
     
     inline = [
