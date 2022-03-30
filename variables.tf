@@ -1,13 +1,17 @@
-variable "num_vms"{
-  type = number
+variable "num_vms" {
+  type    = number
   default = 1
 }
 
-variable "ip_address"{
+variable "ip_address" {
   type = list(string)
 }
 
 variable "ssh_user" {
+  type = string
+}
+
+variable "px_host" {
   type = string
 }
 
@@ -20,6 +24,10 @@ variable "px_pw" {
   type = string
 }
 
+variable "userdata_remote_location" {
+  type = string
+}
+
 
 variable "ssh_pub_key_file" {
   description = "The Public Key used for provisioned VMs using Cloud-Init"
@@ -29,4 +37,10 @@ variable "ssh_pub_key_file" {
 variable "ssh_priv_key_file" {
   description = "The Private Key used for provisioned VMs using Cloud-Init"
   type        = string
+}
+
+
+
+variable "cluster_name" {
+  type = string
 }
