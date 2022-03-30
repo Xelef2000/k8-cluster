@@ -12,7 +12,7 @@ data "template_file" "user_data" {
 resource "local_file" "cloud_init_user_data_file" {
   count    = var.num_vms
   content  = data.template_file.user_data[count.index].rendered
-  filename = "${path.module}/files/user_data_${count.index}.cfg"
+  filename = "${path.module}/cloud-init/user_data_${count.index}.cfg"
 }
 
 resource "null_resource" "cloud_init_config_files" {
