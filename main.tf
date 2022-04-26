@@ -12,7 +12,7 @@ data "template_file" "user_data" {
 resource "local_file" "cloud_init_user_data_file" {
   count    = var.num_vms
   content  = data.template_file.user_data[count.index].rendered
-  filename = "${path.module}/cloud-init/user_data_${count.index}.cfg"
+  filename = "${path.module}/files/user_data_${count.index}.cfg"
 }
 
 resource "null_resource" "cloud_init_config_files" {
@@ -43,7 +43,8 @@ resource "proxmox_vm_qemu" "k8-nodes" {
   desc        = "tf description"
   target_node = "hkm2"
 
-  clone    = "bullseye-cloud-init-template"
+  #clone    = "bullseye-cloud-init-template"
+  clone    = "bullseye-cloud-init-small"
   agent    = 1
   os_type  = "cloud-init"
   cores    = 4
@@ -93,12 +94,11 @@ resource "proxmox_vm_qemu" "k8-nodes" {
 }
 
 
-resource "null_resource" "kubespray-handover" {
-  depends_on = [
-    proxmox_vm_qemu.k8-nodes,
-  ]
+# resource "null_resource" "kubespray-handover" {
+#   depends_on = [
+#     proxmox_vm_qemu.k8-nodes,
+#   ]
+  
+#   command = "./configure-kubespray.sh -u ${var.ssh_user} -c ${var.cluster_name} -p \" ${join(" ", var.ip_address)} \" -i ${var.ssh_priv_key_file}"
 
-  provisioner "local-exec" {
-    command = "./configure-kubespray.sh -u ${var.ssh_user} -c ${var.cluster_name} -p \" ${join(" ", var.ip_address)} \" -i ${var.ssh_priv_key_file}"
-  }
-}
+# }

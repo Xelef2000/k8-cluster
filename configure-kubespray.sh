@@ -5,8 +5,6 @@ do
     case "${flag}" in
         c) clustername=${OPTARG};;
         p) ip=${OPTARG};;
-        i) privatkey=${OPTARG};;
-        u) username=${OPTARG};;
     esac
 done
 
@@ -27,8 +25,3 @@ CONFIG_FILE=inventory/$clustername/hosts.yaml python3 contrib/inventory_builder/
 cat inventory/$clustername/group_vars/all/all.yml
 cat inventory/$clustername/group_vars/k8s_cluster/k8s-cluster.yml
 
-# Deploy Kubespray with Ansible Playbook - run the playbook as root
-# The option `--become` is required, as for example writing SSL keys in /etc/,
-# installing packages and interacting with various systemd daemons.
-# Without --become the playbook will fail to run!
-ansible-playbook -u $username --private-key=$privatkey -i inventory/$clustername/hosts.yaml  --become --become-user=root cluster.yml
